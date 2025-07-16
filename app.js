@@ -24,6 +24,12 @@ function createUser(element) {
     }
 }
 
+function filter(arr) {
+    arr = arr
+        .sort((a, b) => isSortAgeUsers ? a.age - b.age : b.age - a.age);
+    arr.forEach(user => createUser(user));
+}
+
 userListBtn.addEventListener('click', () => {
     if (!isUserList) {
         list.innerHTML = '';
@@ -55,12 +61,6 @@ userListBtn.addEventListener('click', () => {
 
         sortBtn.addEventListener('click', () => {
             list.innerHTML = '';
-
-            function filter(arr) {
-                arr = arr
-                    .sort((a, b) => isSortAgeUsers ? a.age - b.age : b.age - a.age);
-                arr.forEach(user => createUser(user));
-            }
 
             switch (isAllUsers) {
                 case true:
