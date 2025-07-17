@@ -10,7 +10,7 @@ const updatedUsers = users.map(user => {
     return {
         label: user.name,
         value: user.id,
-        status: user.is_active,
+        status: user.is_active ? "active" : "inactive",
     };
 });
 console.log(updatedUsers);
@@ -22,7 +22,7 @@ const items = [
 ];
 
 function updatedItems(arr) {
-    let result = {};
+    const result = {};
 
     arr.forEach(item => {
         const key = item.category;
