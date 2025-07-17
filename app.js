@@ -1,5 +1,47 @@
 import { arrUsers } from './data.js';
 
+//////////////////// НОВОЕ ЗАДАНИЕ //////////////////////////
+const users = [
+    { id: 1, name: 'Alice', is_active: true },
+    { id: 2, name: 'Bob', is_active: false }
+];
+
+const updatedUsers = users.map(user => {
+    return {
+        label: user.name,
+        value: user.id,
+        status: user.is_active,
+    };
+});
+console.log(updatedUsers);
+
+const items = [
+    { id: 1, name: 'Apple', category: 'fruit' },
+    { id: 2, name: 'Carrot', category: 'vegetable' },
+    { id: 3, name: 'Banana', category: 'fruit' }
+];
+
+function updatedItems(arr) {
+    let result = {};
+
+    arr.forEach(item => {
+        const key = item.category;
+
+        if (!result[key]) {
+            result[key] = [];
+        }
+
+        result[key].push({
+            id: item.id,
+            name: item.name
+        });
+    });
+
+    return result;
+}
+
+console.log(updatedItems(items));
+///////////////////////////////////////////////////////////////
 const container = document.getElementById('container');
 const userListBtn = document.getElementById('getUsersList');
 const list = document.createElement('ul');
