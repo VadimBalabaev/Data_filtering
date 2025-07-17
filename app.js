@@ -1,53 +1,132 @@
 import { arrUsers } from './data.js';
 
+//////////////////// НОВОЕ ЗАДАНИЕ //////////////////////////
+const users = [
+    { id: 1, name: 'Alice', is_active: true },
+    { id: 2, name: 'Bob', is_active: false }
+];
+
+const updatedUsers = users.map(user => {
+    return {
+        label: user.name,
+        value: user.id,
+        status: user.is_active ? "active" : "inactive",
+    };
+});
+console.log(updatedUsers);
+
+const items = [
+    { id: 1, name: 'Apple', category: 'fruit' },
+    { id: 2, name: 'Carrot', category: 'vegetable' },
+    { id: 3, name: 'Banana', category: 'fruit' }
+];
+
+function updatedItems(arr) {
+    const result = {};
+
+    arr.forEach(item => {
+        const key = item.category;
+
+        if (!result[key]) {
+            result[key] = [];
+        }
+
+        result[key].push({
+            id: item.id,
+            name: item.name
+        });
+    });
+
+    return result;
+}
+
+console.log(updatedItems(items));
+///////////////////////////////////////////////////////////////
 const container = document.getElementById('container');
 const userListBtn = document.getElementById('getUsersList');
 const list = document.createElement('ul');
 
-let userList = false;
-let ageBtn;
-let sortAgeU = true;
+let isUserList = false;
+let isSortAgeUsers = true;
+let isAllUsers = true;
 
-function createUser (element) {
-    const li = document.createElement('li');
-    li.textContent = `${element.name} - ${element.age}`;
-    list.appendChild(li);
+let ageBtn;
+let sortBtn;
+
+let newArrUsers = [...arrUsers];
+let filteredUserList = [];
+
+function createUser(element) {
+    if (!element) {
+        throw new Error('Не передан элемент');
+    } else {
+        const li = document.createElement('li');
+        li.textContent = `${element.name} - ${element.age}`;
+        list.appendChild(li);
+    }
+}
+
+function filter(arr) {
+    arr = arr
+        .sort((a, b) => isSortAgeUsers ? a.age - b.age : b.age - a.age);
+    arr.forEach(user => createUser(user));
 }
 
 userListBtn.addEventListener('click', () => {
-    if (!userList) {
+    if (!isUserList) {
         list.innerHTML = '';
-        arrUsers.forEach(user => {
-            createUser(user);
-        });
+        arrUsers.forEach(user => createUser(user));
+        isAllUsers = true;
     }
 
-    if(!ageBtn){
+    if (!ageBtn) {
         ageBtn = document.createElement('button');
         ageBtn.textContent = 'Старше 30';
 
         ageBtn.addEventListener('click', () => {
             list.innerHTML = '';
 
-            const sortUsers = [...arrUsers]
-            .filter(user => user.age >=30)
-            .sort((a, b) => sortAgeU ? a.age - b.age : b.age - a.age);
+            filteredUserList = newArrUsers
+                .filter(user => user.age >= 30);
 
-            sortUsers.forEach(user => createUser(user));
 
-            sortAgeU = !sortAgeU;
+            filteredUserList.forEach(user => createUser(user));
 
-            ageBtn.textContent = sortAgeU ? 'Сортировать по возрастаню ↑' : 'Сортировать по убыванию ↓';
-
-            userList = false;
+            isUserList = false;
+            isAllUsers = false;
         });
-    } else {
-        ageBtn.textContent = 'Старше 30';
-        sortAgeU = true;
     }
-    
+
+    if (!sortBtn) {
+        sortBtn = document.createElement('button');
+        sortBtn.textContent = 'Сортировать по возрасту';
+
+        sortBtn.addEventListener('click', () => {
+            list.innerHTML = '';
+
+            switch (isAllUsers) {
+                case true:
+                    filter(newArrUsers);
+                    break;
+                case false:
+                    filter(filteredUserList);
+                    break;
+                default:
+                    console.warn('Флаг isAllUsers имеет неизвестное значение');
+                    break;
+            }
+
+            isSortAgeUsers = !isSortAgeUsers;
+
+            sortBtn.textContent = isSortAgeUsers ? 'Сортировать по возрастаню ↑' : 'Сортировать по убыванию ↓';
+
+            isUserList = false;
+        });
+    }
+
     container.appendChild(ageBtn);
+    container.appendChild(sortBtn);
     container.appendChild(list);
 
-    userList = true;
+    isUserList = true;
 });
