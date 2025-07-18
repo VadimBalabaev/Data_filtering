@@ -46,8 +46,12 @@ console.log(updatedItems(items));
 
 
 //////////////////// ЗАДАНИЕ 2 //////////////////////////
-function parseQuery(queryString = '?page=2&sort=desc'){
-    
+let queryString = '?page=2&sort=desc';
+function parseQuery(queryString){
+    if (!queryString){
+        console.log('');
+        return;
+    };
     const keys = [];
     const values = [];
 
@@ -62,29 +66,25 @@ function parseQuery(queryString = '?page=2&sort=desc'){
     }, {});
     console.log(result);
 }
-parseQuery();
+parseQuery(queryString);
 
-function refundOfArrayRequiredProperties(
-    obj = { name: 'Alex', password: '123' }, 
-    required = ['name', 'email', 'password']
-) { 
-    const result = [];
-    for(let i = 0; i<required.length; i++){
-        let requiredPropertie = false;
+let user = { name: 'Alex', password: '123' };
+let required = ['name', 'email', 'password'];
 
-        for (let key in obj) {
-            if(key === required[i]){
-                requiredPropertie = true;
-                break;
-            }
-        }
-        if (!requiredPropertie){
-            result.push(required[i]);
-        }
+function refundOfArrayRequiredProperties(obj, required) { 
+    if(!obj || !required){
+        console.log('');
+        return;
     }
+    const result = [];
+    required.forEach(key => {
+        if(!Object.keys(obj).includes(key)){
+            result.push(key);
+        }
+    });
     console.log(result);
 }
-refundOfArrayRequiredProperties();
+refundOfArrayRequiredProperties(user, required);
 
 //////////////////////////////////////////////////////////////
 const container = document.getElementById('container');
