@@ -1,6 +1,6 @@
 import { arrUsers } from './data.js';
 
-//////////////////// НОВОЕ ЗАДАНИЕ //////////////////////////
+//////////////////// ЗАДАНИЕ 1 //////////////////////////
 const users = [
     { id: 1, name: 'Alice', is_active: true },
     { id: 2, name: 'Bob', is_active: false }
@@ -42,6 +42,51 @@ function updatedItems(arr) {
 
 console.log(updatedItems(items));
 ///////////////////////////////////////////////////////////////
+
+
+
+//////////////////// ЗАДАНИЕ 2 //////////////////////////
+let queryString = '?page=2&sort=desc';
+function parseQuery(queryString){
+    if (!queryString){
+        console.log('');
+        return;
+    };
+    const keys = [];
+    const values = [];
+
+    const createSortArr = queryString.match(/\b\w+=(\d+|\w+)/g);
+    createSortArr.forEach(item => {
+        keys.push(item.split("=")[0]);
+        values.push(item.split("=")[1]);
+    });
+    const result = keys.reduce((obj, key, index) => {
+        obj[key] = values[index];
+        return obj;
+    }, {});
+    console.log(result);
+}
+parseQuery(queryString);
+
+let user = { name: 'Alex', password: '123' };
+let required = ['name', 'email', 'password'];
+
+function refundOfArrayRequiredProperties(obj, required) { 
+    if(!obj || !required){
+        console.log('');
+        return;
+    }
+    const result = [];
+    required.forEach(key => {
+        if(!Object.keys(obj).includes(key)){
+            result.push(key);
+        }
+    });
+    console.log(result);
+}
+refundOfArrayRequiredProperties(user, required);
+
+//////////////////////////////////////////////////////////////
 const container = document.getElementById('container');
 const userListBtn = document.getElementById('getUsersList');
 const list = document.createElement('ul');
