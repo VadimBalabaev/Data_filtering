@@ -86,7 +86,40 @@ function refundOfArrayRequiredProperties(obj, required) {
 }
 refundOfArrayRequiredProperties(user, required);
 
-//////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+////////////////////////// ЗАДАЧА 3 ////////////////////////
+const listQuest3 = [
+    { id: 1, name: 'A' },
+    { id: 2, name: 'B' },
+    { id: 1, name: 'C' }
+];
+const newListQuest3 = listQuest3.filter((obj, index, arr) => {
+    return arr.findIndex(o => o.id === obj.id) === index;
+});
+console.log(newListQuest3);
+
+const mockUsers = {
+    1: 'Alice',
+    2: 'Bob'
+};
+function fetchUserName(userId){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const name = mockUsers[userId];
+
+            if(name){
+                resolve(name);
+            } else {
+                reject("Пользователь не найден");
+            }
+        }, 1000);
+    });
+}
+fetchUserName(1)
+    .then(name => console.log("Имя:", name))
+    .catch(err => console.log("Ошибка:", err));
+////////////////////////////////////////////////////////////
 const container = document.getElementById('container');
 const userListBtn = document.getElementById('getUsersList');
 const list = document.createElement('ul');
